@@ -1,0 +1,37 @@
+{
+  "name": "shopping-list-express",
+  "version": "1.0.0",
+  "description": "API for shopping list in express.js",
+  "main": "app.js",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/app.js",
+    "dev": "nodemon app.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/matousek11/shopping-list-express.git"
+  },
+  "keywords": [
+    "express",
+    "api"
+  ],
+  "author": "Lukas Matousek",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/matousek11/shopping-list-express/issues"
+  },
+  "homepage": "https://github.com/matousek11/shopping-list-express#readme",
+  "dependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.12.7",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "typescript": "^5.4.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2"
+  }
+}
