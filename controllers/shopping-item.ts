@@ -10,6 +10,40 @@ import { Request, Response } from 'express'
 
 const router = express.Router()
 
+/**
+ * @swagger
+ * tags:
+ *   name: Item
+ *   description: Item API
+ * /shopping-item/create:
+ *   post:
+ *     summary: Create a new item
+ *     tags: [Item]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ItemCreateRequest'
+ *     responses:
+ *       200:
+ *         description: The created item
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ItemResponse'
+ *       400:
+ *         description: Validation error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error description
+ *                   example: Id must be 24 character long in hex
+ *
+ */
 router.post('/create', async (req: Request, res: Response) => {
     let message = validateCreateItemBody(req.body)
 
@@ -24,9 +58,55 @@ router.post('/create', async (req: Request, res: Response) => {
     res.send(loadedResult)
 })
 
+
+/**
+ * @swagger
+ * tags:
+ *   name: Item
+ *   description: Item API
+ * /shopping-item/update/:
+ *   put:
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *           required: true
+ *           description: String ID of the item to get
+ *     summary: Update a item
+ *     tags: [Item]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ItemUpdateRequest'
+ *     responses:
+ *       200:
+ *         description: The updated item
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ItemResponse'
+ *       400:
+ *         description: Validation error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error description
+ *                   example: Id must be 24 character long in hex
+ */
 router.put('/update/:id', async (req: Request, res: Response) => {
     if (!validateIDFormat(req.params.id)) {
         res.status(400).send({ error: 'Id must be 24 character long in hex' })
+        return
+    }
+
+    if (req.body.id !== undefined || req.body._id !== undefined) {
+        res.status(400).send('Variable id cannot be updated')
         return
     }
 
@@ -48,13 +128,51 @@ router.put('/update/:id', async (req: Request, res: Response) => {
     res.send(loadedResult)
 })
 
+/**
+ * @swagger
+ * tags:
+ *   name: Item
+ *   description: Item API
+ * /shopping-item/list:
+ *   get:
+ *     summary: Display list of items
+ *     tags: [Item]
+ *     requestBody:
+ *       required: false
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ListFilterBody'
+ *     responses:
+ *       200:
+ *         description: The updated item
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:   
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/ItemResponse'
+ *       400:
+ *         description: Validation error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error description
+ *                   example: Id must be 24 character long in hex
+ */
 router.get('/list', async (req: Request, res: Response) => {
     // without filter
     if (req.body === undefined) {
         let data = await shoppingItemDatabase.getShoppingItems({})
 
         res.send({
-            data
+            data,
         })
         return
     }
@@ -62,7 +180,7 @@ router.get('/list', async (req: Request, res: Response) => {
     let query = buildFilter(req, res)
     queryBuilder.resetQuery()
     if (query === false) {
-      return
+        return
     }
 
     let data = await shoppingItemDatabase.getShoppingItems(query)
@@ -71,6 +189,40 @@ router.get('/list', async (req: Request, res: Response) => {
     })
 })
 
+/**
+ * @swagger
+ * tags:
+ *   name: Item
+ *   description: Item API
+ * /shopping-item/delete/:
+ *   delete:
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *           required: true
+ *           description: String ID of the item to get
+ *     summary: Delete a item
+ *     tags: [Item]
+ *     responses:
+ *       200:
+ *         description: The deleted item
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ItemResponse'
+ *       400:
+ *         description: Validation error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error description
+ *                   example: Variable state is not array
+ */
 router.delete('/delete/:id', async (req: Request, res: Response) => {
     if (!validateIDFormat(req.params.id)) {
         res.status(400).send({ error: 'Id must be 24 character long in hex' })
