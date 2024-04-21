@@ -7,8 +7,7 @@
     "build": "npx tsc",
     "start": "node dist/app.js",
     "dev": "nodemon app.ts",
-    "test": "jest --testTimeout=5000",
-    "seed": "ts-node prisma/seed.ts"
+    "test": "jest --testTimeout=5000"
   },
   "repository": {
     "type": "git",
