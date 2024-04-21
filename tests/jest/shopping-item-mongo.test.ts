@@ -1,4 +1,4 @@
-import { Item } from "../../types/item"
+import { Item } from '../../types/item'
 
 const shoppingItemDatabase = require('../../database/shopping-item-mongo.ts')
 
@@ -32,11 +32,11 @@ describe('Test CRUD on mongodb', () => {
         const createdItem: Item = {
             content: 'helloo',
             count: 22,
-            state: 'COMPLETE'
+            state: 'COMPLETE',
         }
         const updateOfItem = {
             count: 20,
-            state: 'COMPLETE'
+            state: 'INCOMPLETE',
         }
 
         let result = await createNewItem(createdItem)

@@ -34,8 +34,7 @@ class ShoppingItemDatabaseService {
     }
 
     getShoppingItems = async (query = {}) => {
-        let result = await ItemModel.find(query)
-        return result
+        return await ItemModel.find(query)
     }
 
     deleteShoppingItem = async (id: string) => {

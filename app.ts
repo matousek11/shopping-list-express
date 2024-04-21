@@ -1,4 +1,5 @@
 import express, { Express } from 'express'
+
 const mongoose = require('mongoose'),
     dotenv = require('dotenv'),
     bodyParser = require('body-parser'),
@@ -14,14 +15,9 @@ const port = process.env.PORT || 3000
 
 app.use(bodyParser.json())
 app.use('/shopping-item', shoppingItem)
-  
-  const specs = swaggerJsdoc(swaggerOptions);
-  app.use(
-    "/api-docs",
-    swaggerUi.serve,
-    swaggerUi.setup(specs)
-  );
 
+const specs = swaggerJsdoc(swaggerOptions)
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs))
 
 app.listen(port, () => {
     console.log(`[server]: Server is running at http://localhost:${port}`)

@@ -11,13 +11,13 @@ describe('Test of query building', () => {
 
         expect(queryBuilder.query).toStrictEqual(expectedObj)
     })
-    
+
     it('Query with state and content', () => {
         let state = 'INCOMPLETE'
         let content = 'content text'
         let expectedObj = {
             state: { $in: state },
-            content: content
+            content: content,
         }
 
         queryBuilder.queryByState(state)
@@ -34,7 +34,7 @@ describe('Test of query building', () => {
         let expectedObj = {
             state: { $in: state },
             content: content,
-            createdAt: { $gte: startDateTime}
+            createdAt: { $gte: startDateTime },
         }
 
         queryBuilder.queryByState(state)
@@ -52,7 +52,7 @@ describe('Test of query building', () => {
         let expectedObj = {
             state: { $in: state },
             content: content,
-            createdAt: { $lte: endDateTime}
+            createdAt: { $lte: endDateTime },
         }
 
         queryBuilder.queryByState(state)
@@ -74,7 +74,7 @@ describe('Test of query building', () => {
             createdAt: {
                 $gte: startDateTime,
                 $lte: endDateTime,
-            }
+            },
         }
 
         queryBuilder.queryByState(state)

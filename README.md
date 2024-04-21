@@ -24,4 +24,4 @@ API built on Express.js with MongoDB
 
 # API documentation
 
-- on `localhost:3000/api-docs/`
+- on `localhost:3001/api-docs/`

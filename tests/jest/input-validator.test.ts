@@ -1,12 +1,17 @@
-const { validateCreateItemBody, validateISO8601, validateIDFormat } = require('../../helpers/input-validator.ts')
+const {
+    validateCreateItemBody,
+    validateISO8601,
+    validateIDFormat,
+} = require('../../helpers/input-validator.ts')
 
 describe('Test validateCreateItemBody', () => {
     const body = {
-        content: "content",
+        content: 'content',
         count: 10,
-        state: "COMPLETE"
+        state: 'COMPLETE',
     }
     const keys = ['content', 'count', 'state']
+
     it('Correct case', () => {
         expect(validateCreateItemBody(body)).toBe(null)
     })
@@ -14,10 +19,12 @@ describe('Test validateCreateItemBody', () => {
     for (const key of keys) {
         it('Incorrect case - missing ' + key, () => {
             let editedBody: any = {
-                ...body
+                ...body,
             }
             delete editedBody[key]
-            expect(validateCreateItemBody(editedBody)).toBe('Variable ' + key + ' is not set')
+            expect(validateCreateItemBody(editedBody)).toBe(
+                'Variable ' + key + ' is not set'
+            )
         })
     }
 })

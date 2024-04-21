@@ -1,3 +1,5 @@
+import { Request, Response } from 'express'
+
 const express = require('express')
 const shoppingItemDatabase = require('../database/shopping-item-mongo.ts')
 const queryBuilder = require('../helpers/query-builder.ts')
@@ -6,7 +8,6 @@ const {
     validateIDFormat,
     validateCreateItemBody,
 } = require('../helpers/input-validator.ts')
-import { Request, Response } from 'express'
 
 const router = express.Router()
 
@@ -51,13 +52,11 @@ router.post('/create', async (req: Request, res: Response) => {
         res.status(400).send({ error: message })
         return
     }
-    const now = new Date()
-    req.body.createdAt = now.toISOString()
+    req.body.createdAt = new Date().toISOString()
 
     let loadedResult = await shoppingItemDatabase.createShoppingItem(req.body)
     res.send(loadedResult)
 })
-
 
 /**
  * @swagger
@@ -151,7 +150,7 @@ router.put('/update/:id', async (req: Request, res: Response) => {
  *             schema:
  *               type: object
  *               properties:
- *                 data:   
+ *                 data:
  *                   type: array
  *                   items:
  *                     $ref: '#/components/schemas/ItemResponse'
@@ -221,7 +220,7 @@ router.get('/list', async (req: Request, res: Response) => {
  *                 error:
  *                   type: string
  *                   description: Error description
- *                   example: Variable state is not array
+ *                   example: Variable state must be array
  */
 router.delete('/delete/:id', async (req: Request, res: Response) => {
     if (!validateIDFormat(req.params.id)) {
@@ -243,7 +242,7 @@ const buildFilter = (req: Request, res: Response) => {
         if (Array.isArray(req.body.state)) {
             queryBuilder.queryByState(req.body.state)
         } else {
-            res.status(400).send({ error: 'Variable state is not array' })
+            res.status(400).send({ error: 'Variable state must be array' })
             return false
         }
     }

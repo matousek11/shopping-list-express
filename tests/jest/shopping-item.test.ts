@@ -1,6 +1,5 @@
 import { Item } from '../../types/item'
 
-
 const request = require('supertest')
 const app = require('../../app.ts')
 const shoppingItemDatabaseService = require('../../database/shopping-item-mongo.ts')
@@ -155,6 +154,5 @@ describe('Test REST API', () => {
 
     afterAll(async () => {
         await shoppingItemDatabaseService.deleteAllShoppingItems
-        
     })
 })

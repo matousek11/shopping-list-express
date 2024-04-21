@@ -16,6 +16,7 @@ function validateISO8601(dateString: string) {
         const d = new Date(dateString)
         return !isNaN(d.getTime())
     }
+    
     return false
 }
 
