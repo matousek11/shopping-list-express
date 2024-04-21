@@ -5,14 +5,16 @@ API built on Express.js with MongoDB
 
 1. `yarn install`
 2. Set up `.env` based on `.env.example`
-3. `yarn dev`
+3. `docker compose up`
+4. `yarn dev`
 
 ## For production
 
 1. `yarn install`
 2. Set up `.env` based on `.env.example`
-3. `yarn build`
-4. `yarn start`
+3. `docker compose up`
+4. `yarn build`
+5. `yarn start`
 
 # Testing
 
