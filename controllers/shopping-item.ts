@@ -26,7 +26,7 @@ router.post('/create', async (req: Request, res: Response) => {
 
 router.put('/update/:id', async (req: Request, res: Response) => {
     if (!validateIDFormat(req.params.id)) {
-        res.status(400).send('Id must be 24 character long in hex')
+        res.status(400).send({ error: 'Id must be 24 character long in hex' })
         return
     }
 
@@ -41,7 +41,7 @@ router.put('/update/:id', async (req: Request, res: Response) => {
     )
 
     if (!loadedResult) {
-        res.status(400).send('No item with id ' + req.params.id)
+        res.status(400).send({ error: 'No item with id ' + req.params.id })
         return
     }
 
@@ -54,7 +54,7 @@ router.get('/list', async (req: Request, res: Response) => {
         let data = await shoppingItemDatabase.getShoppingItems({})
 
         res.send({
-            data,
+            data
         })
         return
     }
@@ -62,7 +62,7 @@ router.get('/list', async (req: Request, res: Response) => {
     let query = buildFilter(req, res)
     queryBuilder.resetQuery()
     if (query === false) {
-        return
+      return
     }
 
     let data = await shoppingItemDatabase.getShoppingItems(query)
@@ -73,14 +73,14 @@ router.get('/list', async (req: Request, res: Response) => {
 
 router.delete('/delete/:id', async (req: Request, res: Response) => {
     if (!validateIDFormat(req.params.id)) {
-        res.status(400).send('Id must be 24 character long in hex')
+        res.status(400).send({ error: 'Id must be 24 character long in hex' })
         return
     }
 
     let result = await shoppingItemDatabase.deleteShoppingItem(req.params.id)
 
     if (!result) {
-        res.status(404).send({ error: 'No item with id ' + req.params.id })
+        res.status(400).send({ error: 'No item with id ' + req.params.id })
     } else {
         res.send(result)
     }

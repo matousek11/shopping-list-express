@@ -28,7 +28,7 @@ class ShoppingItemDatabaseService {
     }
 
     updateShoppingItem = async (id: string, item: any) => {
-        return ItemModel.findByIdAndUpdate(id, item, {
+        return await ItemModel.findByIdAndUpdate(id, item, {
             new: true,
         })
     }
@@ -40,6 +40,10 @@ class ShoppingItemDatabaseService {
 
     deleteShoppingItem = async (id: string) => {
         return await ItemModel.findByIdAndDelete(id)
+    }
+
+    deleteAllShoppingItems = async () => {
+        return await ItemModel.deleteMany({})
     }
 }
 
